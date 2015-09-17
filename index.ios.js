@@ -27,6 +27,7 @@ var MainView = React.createClass({
       token: '',
       auth: '',
       sessions: '',
+      selectedTab: 'mostRecent',
     };
   },
 
@@ -82,6 +83,17 @@ var MainView = React.createClass({
   toggleInputBox: function(){
     this.setState({ input: !this.state.input })
   },
+
+  renderView: function(pageText: string, color: string){
+    return (
+      <View style={{backgroundColor: color}}>
+        <Text style={styles.tabText}>
+          {pageText}
+        </Text>
+      </View>
+    )
+  },
+
   render: function(){
     return (
       
@@ -90,26 +102,49 @@ var MainView = React.createClass({
         <TabBarIOS.Item
           title="New"
           systemIcon='most-recent'
-          onPress={this.handleSortRecent}>
-          <TopBar />
+          selected={this.state.selectedTab === 'mostRecent'}
+          onPress={() => {
+            this.setState({
+              selectedTab: "mostRecent",
+            });
+          }}>
+          {this.renderView('Most Recent Acquisitions', '#6A5ACD')}
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
           title="Hot"
           systemIcon='most-viewed'
-          onPress={this.handleSortPopular}>
+          selected={this.state.selectedTab === 'mostViewed'}
+          onPress={() => {
+            this.setState({
+              selectedTab: "mostViewed",
+            });
+          }}>
+          {this.renderView('Most Viewed Acquisitions', '#FF7F50')}
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          title="Favorites"
+          title="favorites"
           systemIcon='favorites'
-          onPress={this.handleFavorites}>
+          selected={this.state.selectedTab === 'favorites'}
+          onPress={() => {
+            this.setState({
+              selectedTab: "favorites",
+            });
+          }}>
+          {this.renderView('Most favorited Acquisitions', '#FAEBD7')}
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          title="My Posts"
+          title="myPosts"
           systemIcon='bookmarks'
-          onPress={this.handleMyPosts}>
+          selected={this.state.selectedTab === 'bookmarks'}
+          onPress={() => {
+            this.setState({
+              selectedTab: "bookmarks",
+            });
+          }}>
+          {this.renderView('My Acquisitions', '#9ACD32')}
         </TabBarIOS.Item>
 
       </TabBarIOS>
@@ -121,7 +156,10 @@ var MainView = React.createClass({
 var AwesomeProject = React.createClass({
   render: function() {
     return (
-      <MainView />
+      <View>
+        <TopBar />
+        <MainView />
+      </View>
     );
   }
 });
@@ -149,6 +187,10 @@ var styles = StyleSheet.create({
   },
   inputBox: {
     borderColor: 'red'
+  },
+  tabText: {
+    alignItems: 'center',
+    margin: 100,
   }
 });
 

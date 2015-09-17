@@ -5,23 +5,46 @@ var React = require('react-native');
 var {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  NavigatorIOS
 } = React;
+
+var EmptyPage = React.createClass({
+
+  render: function() {
+    return (
+      <View style={styles.emptyPage}>
+        <Text style={styles.emptyPageText}>
+          {this.props.text}
+        </Text>
+      </View>
+    );
+  },
+
+});
 
 var TopBar = React.createClass({
   render: function() {
     return (
-      <View style={styles.background}>
-        <Text>Murmur</Text>
-      </View>
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          component: EmptyPage,
+          title: 'Murmur',
+          rightButtonTitle: 'Compose',
+        }}
+        tintColor="#FFFFFF"
+        barTintColor="#183E63"
+        titleTextColor="#FFFFFF"
+        translucent="true"
+      />
     );
   }
 });
 
 var styles = StyleSheet.create({
-  background: {
-    backgroundColor: 'blue',
-    paddingTop: 20
+  container: {
+    flex: 1
   },
 
 

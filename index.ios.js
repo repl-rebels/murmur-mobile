@@ -7,14 +7,14 @@
 var React = require('react-native');
 var TopBar = require('./topbar.js');
 var ListView = require('./listView.js');
+var Firebase = require('firebase');
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  TextInput,
-  TouchableHighlight,
   TabBarIOS,
+  NavigatorIOS,
 } = React;
 
 var murmurMobile = React.createClass({
@@ -35,7 +35,7 @@ var murmurMobile = React.createClass({
   componentWillMount: function(){
     // if(token){
     //   var context = this;
-    //   this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
+      // this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
     //   this.firebaseRef.authWithCustomToken(token, function(error, authData){
     //     if(error){
     //       console.log('Problem connecting to Database')
@@ -47,14 +47,14 @@ var murmurMobile = React.createClass({
     //       });
     //     }
     //   })
-    //   this.messageRef = this.firebaseRef.child('Fresh Post');
-    //   this.messageRef.on('value', function(dataSnapshot){
-    //     this.messages.push(dataSnapshot.val());
-    //     this.setState({
-    //       messages: dataSnapshot.val()
-    //     });
-    //     console.log('inFreshPost', dataSnapshot.val())
-    //   }.bind(this));
+      // this.messageRef = this.firebaseRef.child('Fresh Post');
+      // this.messageRef.on('value', function(dataSnapshot){
+      //   this.messages.push(dataSnapshot.val());
+      //   this.setState({
+      //     messages: dataSnapshot.val()
+      //   });
+      //   console.log('inFreshPost', dataSnapshot.val())
+      // }.bind(this));
 
     //   this.sessionsRef = this.firebaseRef.child('sessions');
     //   this.sessionsRef.on('value', function(dataSnapshot){
@@ -68,29 +68,28 @@ var murmurMobile = React.createClass({
     // }
   },
 
-  handleSortRecent: function(){
-    this.setState({sort: 'recent'});
-  },
-  handleSortPopular: function(){
-    this.setState({sort: 'popular'});
-  },
-  handleFavorites: function(){
-    this.setState({sort: 'favorites'});
-  },
-  handleMyPosts: function(){
-    this.setState({sort: 'myPosts'});
-  },
   toggleInputBox: function(){
     this.setState({ input: !this.state.input })
   },
 
-  renderView: function(pageText: string, color: string){
+  renderView: function(filter, color){
     return (
-      <View style={{backgroundColor: color}}>
-        <TopBar />
-        <ListView />
-      </View>
-    )
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          component: ListView,
+          title: 'Murmur',
+          rightButtonTitle: 'Compose',
+          passProps: {
+            filter: {filter}
+          },
+        }}
+        tintColor="#FFFFFF"
+        barTintColor={color}
+        titleTextColor="#FFFFFF"
+        translucent="true"
+      />
+    );
   },
 
   render: function(){
@@ -99,7 +98,7 @@ var murmurMobile = React.createClass({
       <TabBarIOS>
 
         <TabBarIOS.Item
-          title="New"
+          title="Most Recent"
           systemIcon='most-recent'
           selected={this.state.selectedTab === 'mostRecent'}
           onPress={() => {
@@ -107,11 +106,11 @@ var murmurMobile = React.createClass({
               selectedTab: "mostRecent",
             });
           }}>
-          {this.renderView('Most Recent Acquisitions', '#6A5ACD')}
+          {this.renderView('mostRecent', 'rgb(5,101,188)')}
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          title="Hot"
+          title="Most Viewed"
           systemIcon='most-viewed'
           selected={this.state.selectedTab === 'mostViewed'}
           onPress={() => {
@@ -119,11 +118,11 @@ var murmurMobile = React.createClass({
               selectedTab: "mostViewed",
             });
           }}>
-          {this.renderView('Most Viewed Acquisitions', '#FF7F50')}
+          {this.renderView('mostViewed', '#FF7F50')}
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          title="favorites"
+          title="Favorites"
           systemIcon='favorites'
           selected={this.state.selectedTab === 'favorites'}
           onPress={() => {
@@ -131,11 +130,11 @@ var murmurMobile = React.createClass({
               selectedTab: "favorites",
             });
           }}>
-          {this.renderView('Most favorited Acquisitions', '#FAEBD7')}
+          {this.renderView('favorites', '#FAEBD7')}
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          title="myPosts"
+          title="Bookmarks"
           systemIcon='bookmarks'
           selected={this.state.selectedTab === 'bookmarks'}
           onPress={() => {
@@ -143,7 +142,7 @@ var murmurMobile = React.createClass({
               selectedTab: "bookmarks",
             });
           }}>
-          {this.renderView('My Acquisitions', '#9ACD32')}
+          {this.renderView('bookmarks', '#9ACD32')}
         </TabBarIOS.Item>
 
       </TabBarIOS>
@@ -155,9 +154,7 @@ var murmurMobile = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column'
   },
   welcome: {
     fontSize: 20,
@@ -179,7 +176,7 @@ var styles = StyleSheet.create({
   tabText: {
     alignItems: 'center',
     margin: 100,
-  }
+  },
 });
 
 AppRegistry.registerComponent('murmurMobile', () => murmurMobile);

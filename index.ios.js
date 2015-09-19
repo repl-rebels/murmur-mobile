@@ -22,50 +22,12 @@ var murmurMobile = React.createClass({
   messages: [],
   getInitialState: function(){
     return {
-      messages: '',
-      sort: 'recent',
-      token: '',
-      auth: '',
-      sessions: '',
       selectedTab: 'mostRecent',
     };
   },
 
-  // Retrieve the messages data from Firebase
   componentWillMount: function(){
-    // if(token){
-    //   var context = this;
-      // this.firebaseRef = new Firebase('https://fiery-heat-3376.firebaseio.com/');
-    //   this.firebaseRef.authWithCustomToken(token, function(error, authData){
-    //     if(error){
-    //       console.log('Problem connecting to Database')
-    //     } else{
-    //       console.log('Connected to Databse')
-    //       context.setState({
-    //         token: authData.token,
-    //         auth: authData.auth,
-    //       });
-    //     }
-    //   })
-      // this.messageRef = this.firebaseRef.child('Fresh Post');
-      // this.messageRef.on('value', function(dataSnapshot){
-      //   this.messages.push(dataSnapshot.val());
-      //   this.setState({
-      //     messages: dataSnapshot.val()
-      //   });
-      //   console.log('inFreshPost', dataSnapshot.val())
-      // }.bind(this));
 
-    //   this.sessionsRef = this.firebaseRef.child('sessions');
-    //   this.sessionsRef.on('value', function(dataSnapshot){
-    //     this.messages.push(dataSnapshot.val());
-    //     this.setState({
-    //       sessions: dataSnapshot.val()
-    //     });
-    //   // console.log('SESSSSSSSSSSSSSSSSionREF', this.sessionRef.toString())
-    //     console.log('inSession', dataSnapshot.val())
-    //   }.bind(this));
-    // }
   },
 
   toggleInputBox: function(){
@@ -119,30 +81,6 @@ var murmurMobile = React.createClass({
             });
           }}>
           {this.renderView('mostViewed', '#FF7F50')}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          title="Favorites"
-          systemIcon='favorites'
-          selected={this.state.selectedTab === 'favorites'}
-          onPress={() => {
-            this.setState({
-              selectedTab: "favorites",
-            });
-          }}>
-          {this.renderView('favorites', '#FAEBD7')}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          title="Bookmarks"
-          systemIcon='bookmarks'
-          selected={this.state.selectedTab === 'bookmarks'}
-          onPress={() => {
-            this.setState({
-              selectedTab: "bookmarks",
-            });
-          }}>
-          {this.renderView('bookmarks', '#9ACD32')}
         </TabBarIOS.Item>
 
       </TabBarIOS>

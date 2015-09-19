@@ -1,25 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
 var React = require('react-native');
-var TopBar = require('./topbar.js');
-var ListView = require('./listView.js');
-var Firebase = require('firebase');
+var App = require('./app.js');
 var {
   AppRegistry,
   StyleSheet,
-  Text,
+  Navigator,
   View,
-  TabBarIOS,
-  NavigatorIOS,
 } = React;
 
 var murmurMobile = React.createClass({
 
-  messages: [],
   getInitialState: function(){
     return {
       selectedTab: 'mostRecent',
@@ -30,91 +21,39 @@ var murmurMobile = React.createClass({
 
   },
 
-  toggleInputBox: function(){
-    this.setState({ input: !this.state.input })
-  },
-
-  renderView: function(filter, color){
+  _renderScene: function(route, navigator) {
+    var Component = route.component;
     return (
-      <NavigatorIOS
-        style={styles.container}
-        initialRoute={{
-          component: ListView,
-          title: 'Murmur',
-          rightButtonTitle: 'Compose',
-          passProps: {
-            filter: {filter}
-          },
-        }}
-        tintColor="#FFFFFF"
-        barTintColor={color}
-        titleTextColor="#FFFFFF"
-        translucent="true"
-      />
+      <View style={styles.container}>
+        <Component
+          route={route}
+          navigator={navigator} />
+      </View>
     );
   },
 
   render: function(){
     return (
-      
-      <TabBarIOS>
-
-        <TabBarIOS.Item
-          title="Most Recent"
-          systemIcon='most-recent'
-          selected={this.state.selectedTab === 'mostRecent'}
-          onPress={() => {
-            this.setState({
-              selectedTab: "mostRecent",
-            });
-          }}>
-          {this.renderView('mostRecent', 'rgb(5,101,188)')}
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          title="Most Viewed"
-          systemIcon='most-viewed'
-          selected={this.state.selectedTab === 'mostViewed'}
-          onPress={() => {
-            this.setState({
-              selectedTab: "mostViewed",
-            });
-          }}>
-          {this.renderView('mostViewed', '#FF7F50')}
-        </TabBarIOS.Item>
-
-      </TabBarIOS>
-
+      <Navigator
+        sceneStyle={styles.container}
+        ref={(navigator) => { this.navigator = navigator; }}
+        renderScene={this._renderScene}
+        tintColor="#FFFFFF"
+        barTintColor="rgb(5,101,188)"
+        titleTextColor="#FFFFFF"
+        navigationBarHidden={true}
+        initialRoute={{
+          title: 'Murmur',
+          component: App,
+        }} />
     );
   }
 });
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column'
-  },
-  welcome: {
-    fontSize: 20,
-    justifyContent: 'center',
-    margin: 10,
-  },
-  instructions: {
-    justifyContent: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  brand: {
-    color: '#333333',
-    justifyContent: 'center'
-  },
-  inputBox: {
-    borderColor: 'red'
-  },
-  tabText: {
-    alignItems: 'center',
-    margin: 100,
-  },
+ container: {
+   flex: 1,
+ }
 });
 
 AppRegistry.registerComponent('murmurMobile', () => murmurMobile);

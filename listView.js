@@ -27,10 +27,7 @@ var ListViewSimpleExample = React.createClass({
     };
   },
 
-  // _pressData: ({}: {[key: number]: boolean}),
-
   componentWillMount: function() {
-    // this._pressData = {};
     this.getMessagesFromDatabase();
   },
 
@@ -56,16 +53,14 @@ var ListViewSimpleExample = React.createClass({
     switch(this.props.filter.filter) {
       case 'mostRecent':
         messagesArray.sort(function(a, b) {
-          return a.timestamp - b.timestamp;
+          return b.timestamp - a.timestamp;
         });
-        console.log('Most Recent: ', messagesArray);
         break;
 
       case 'mostViewed':
         messagesArray.sort(function(a, b) {
           return b.votes - a.votes;
         });
-        console.log('Most Viewed: ', messagesArray);
         break;
     };
 
@@ -94,28 +89,6 @@ var ListViewSimpleExample = React.createClass({
     );
   },
 
-  // _genRows: function(): Array<string> {
-  //   var dataBlob = [];
-  //   // for (var ii = 0; ii < 100; ii++) {
-  //   //   console.log('pressData[ii]: ', pressData[ii]);
-  //   //   var pressedText = pressData[ii] ? ' (pressed)' : '';
-  //   //   dataBlob.push('Row ' + ii + pressedText);
-  //   // }
-
-  //   for (var msg in this.props.messages) {
-  //     // var pressedText = pressData[ii] ? ' (pressed)' : '';
-  //     dataBlob.push(msg.message);
-  //   }
-  //   console.log('dataBlob length: ', dataBlob.length);
-  //   return dataBlob;
-  // },
-
-  // _pressRow: function(rowID: number) {
-  //   this._pressData[rowID] = !this._pressData[rowID];
-  //   this.setState({dataSource: this.state.dataSource.cloneWithRows(
-  //     this._genRows(this._pressData)
-  //   )});
-  // },
 });
 
 var styles = StyleSheet.create({

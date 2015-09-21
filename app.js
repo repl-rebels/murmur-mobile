@@ -66,8 +66,8 @@ var App = React.createClass({
         initialRoute={{
           component: ListView,
           title: 'Murmur',
-          leftButtonTitle: 'Search',
-          rightButtonTitle: 'Compose',
+          leftButtonTitle: 'Message',
+          rightButtonTitle: 'Votes',
           passProps: {
             color: color,
             filter: filter,

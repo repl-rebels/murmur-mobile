@@ -12,9 +12,7 @@ var {
 var murmurMobile = React.createClass({
 
   getInitialState: function(){
-    return {
-      selectedTab: 'mostRecent',
-    };
+    return null;
   },
 
   componentWillMount: function(){

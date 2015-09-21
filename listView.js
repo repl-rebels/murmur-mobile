@@ -10,6 +10,7 @@ var {
   StyleSheet,
   Text,
   View,
+  ActivityIndicatorIOS,
 } = React;
 
 var ListViewSimpleExample = React.createClass({
@@ -36,6 +37,7 @@ var ListViewSimpleExample = React.createClass({
       
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(filteredMessages),
+        loaded: true,
       });
     }.bind(this));
   },
@@ -65,6 +67,17 @@ var ListViewSimpleExample = React.createClass({
   },
 
   render: function() {
+    while(!this.state.loaded) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicatorIOS
+            color="#0000ff"
+            animating={!this.state.loaded}
+            style={styles.centering}
+            size="large" />
+        </View>
+      );
+    } 
     return (
       <ListView
         dataSource={this.state.dataSource}
@@ -87,7 +100,7 @@ var ListViewSimpleExample = React.createClass({
     return (
       <View>
         <View style={styles.container}>
-          <Image source={{uri: faces[Math.floor(Math.random() * (faces.length))] }}
+          <Image source={{uri: faces[Math.floor(Math.random() * faces.length)] }}
                  style={styles.image} />
             <View style={styles.messageContainer}>
               <Text style={styles.message}>
@@ -114,6 +127,17 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
+  },
+  loading: {
+    flex: 1,
+    backgroundColor: '#FFFFFD',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 80
   },
   separator: {
     height: 1,

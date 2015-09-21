@@ -3,6 +3,7 @@
 var React = require('react-native');
 var ListView = require('./listView.js');
 var Firebase = require('firebase');
+var SampleNavButtonPush = require('./sampleNavButtonPush.js');
 var {
   AppRegistry,
   StyleSheet,
@@ -68,6 +69,12 @@ var App = React.createClass({
           title: 'Murmur',
           leftButtonTitle: 'Message',
           rightButtonTitle: 'Votes',
+          onRightButtonPress: () => {
+            this.props.navigator.push({
+              component: SampleNavButtonPush,
+              color: 'red',
+            });            
+          },
           passProps: {
             color: color,
             filter: filter,

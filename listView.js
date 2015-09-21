@@ -23,7 +23,7 @@ var ListViewSimpleExample = React.createClass({
         rowHasChanged: (r1, r2) => r1 !== r2,
         sectionHeaderHasChanged: (s1, s2) => s1 !== s2
         }),
-      loaded: false
+      loaded: false,
     };
   },
 
@@ -50,7 +50,7 @@ var ListViewSimpleExample = React.createClass({
       messagesArray.push(messages[message]);
     }
 
-    switch(this.props.filter.filter) {
+    switch(this.props.filter) {
       case 'mostRecent':
         messagesArray.sort(function(a, b) {
           return b.timestamp - a.timestamp;
@@ -78,10 +78,15 @@ var ListViewSimpleExample = React.createClass({
 
   _renderRow: function(rowData) {
     return (
-      <View>
-        <View style={styles.row}>
-          <Text style={styles.text}>
+      <View style={styles.container}>
+        <View style={styles.messageContainer}>
+          <Text style={styles.message}>
             {rowData.message}
+          </Text>
+        </View>
+        <View style={styles.votesContainer}>
+          <Text style={styles.votes}>
+            {rowData.votes}
           </Text>
         </View>
         <View style={styles.separator} />
@@ -106,8 +111,31 @@ var styles = StyleSheet.create({
     width: 64,
     height: 64,
   },
-  text: {
+  votesContainer: {
+    alignItems: 'flex-end',
+    backgroundColor: '#FFFFFD',
+    marginRight: 15
+  },
+  votes: {
+    textAlign: 'right',
+    fontSize: 15
+  },
+  messageContainer:{
     flex: 1,
+  },
+  message: {
+    fontSize: 15,
+    textAlign: 'left',
+    marginTop: 10,
+    marginBottom: 4,
+    marginRight: 10,
+    color: '#DA552F',
+    paddingLeft: 10,
+  },
+  messageDetails: {
+    fontSize: 12,
+    marginBottom: 10,
+    color: 'gray',
   },
 });
 

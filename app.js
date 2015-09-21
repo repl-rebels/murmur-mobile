@@ -12,7 +12,8 @@ var {
   NavigatorIOS,
 } = React;
 
-var murmurMobile = React.createClass({
+
+var App = React.createClass({
 
   getInitialState: function(){
     return {
@@ -22,31 +23,6 @@ var murmurMobile = React.createClass({
 
   componentWillMount: function(){
 
-  },
-
-  toggleInputBox: function(){
-    this.setState({ input: !this.state.input })
-  },
-
-  renderView: function(filter, color){
-    return (
-      <NavigatorIOS
-        style={styles.container}
-        initialRoute={{
-          component: ListView,
-          title: 'Murmur',
-          leftButtonTitle: 'Search',
-          rightButtonTitle: 'Compose',
-          passProps: {
-            filter: {filter}
-          },
-        }}
-        tintColor="#FFFFFF"
-        barTintColor={color}
-        titleTextColor="#FFFFFF"
-        translucent="true"
-      />
-    );
   },
 
   render: function(){
@@ -81,7 +57,30 @@ var murmurMobile = React.createClass({
       </TabBarIOS>
 
     );
-  }
+  },
+
+  renderView: function(filter, color){
+    return (
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          component: ListView,
+          title: 'Murmur',
+          leftButtonTitle: 'Search',
+          rightButtonTitle: 'Compose',
+          passProps: {
+            color: color,
+            filter: filter,
+          },
+        }}
+        tintColor="#FFFFFF"
+        barTintColor={color}
+        titleTextColor="#FFFFFF"
+        translucent="true"
+      />
+    );
+  },
+
 });
 
 var styles = StyleSheet.create({
@@ -110,6 +109,22 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     margin: 100,
   },
+  multiline: {
+    borderWidth: 0.5,
+    borderColor: '#0f0f0f',
+    flex: 1,
+    fontSize: 13,
+    height: 50,
+    padding: 4,
+    marginBottom: 4,
+  },
+  multilineWithFontStyles: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: 'Cochin',
+    height: 60,
+  },
 });
 
-AppRegistry.registerComponent('murmurMobile', () => murmurMobile);
+module.exports = App;

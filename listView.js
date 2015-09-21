@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Firebase = require('firebase');
+var Moment = require('moment');
 var {
   Image,
   ListView,
@@ -12,10 +13,6 @@ var {
 } = React;
 
 var ListViewSimpleExample = React.createClass({
-  statics: {
-    title: 'Murmur',
-    description: 'Performant, scrollable list of data.'
-  },
 
   getInitialState: function() {
     return {
@@ -77,17 +74,34 @@ var ListViewSimpleExample = React.createClass({
   },
 
   _renderRow: function(rowData) {
+    var faces = [
+      'https://avatars0.githubusercontent.com/u/11153337?v=3&s=460',
+      'https://avatars1.githubusercontent.com/u/7588348?v=3&s=460',
+      'https://avatars0.githubusercontent.com/u/150330?v=3&s=460',
+      'https://avatars1.githubusercontent.com/u/10872765?v=3&s=460',
+      'https://avatars0.githubusercontent.com/u/9171254?v=3&s=460',
+      'https://avatars2.githubusercontent.com/u/11528324?v=3&s=460',
+      'https://avatars0.githubusercontent.com/u/10123701?v=3&s=460',
+      'https://avatars0.githubusercontent.com/u/4110995?v=3&s=460',
+    ];
     return (
-      <View style={styles.container}>
-        <View style={styles.messageContainer}>
-          <Text style={styles.message}>
-            {rowData.message}
-          </Text>
-        </View>
-        <View style={styles.votesContainer}>
-          <Text style={styles.votes}>
-            {rowData.votes}
-          </Text>
+      <View>
+        <View style={styles.container}>
+          <Image source={{uri: faces[Math.floor(Math.random() * (faces.length))] }}
+                 style={styles.image} />
+            <View style={styles.messageContainer}>
+              <Text style={styles.message}>
+                {rowData.message}
+              </Text>
+              <Text style={styles.messageDetails}>
+                { Moment(rowData.timestamp).fromNow() }
+              </Text>
+            </View>
+            <View style={styles.votesContainer}>
+              <Text style={styles.votes}>
+                {rowData.votes}
+              </Text>
+            </View>
         </View>
         <View style={styles.separator} />
       </View>
@@ -97,11 +111,9 @@ var ListViewSimpleExample = React.createClass({
 });
 
 var styles = StyleSheet.create({
-  row: {
+  container: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 10,
-    backgroundColor: '#F6F6F6',
   },
   separator: {
     height: 1,
@@ -111,13 +123,29 @@ var styles = StyleSheet.create({
     width: 64,
     height: 64,
   },
+  image: {
+    height: 48,
+    width: 48,
+    borderRadius: 25,
+    marginTop: 2,
+    alignSelf: 'center',
+    marginRight: 15,
+    marginLeft: 15
+  },
   votesContainer: {
     alignItems: 'flex-end',
     backgroundColor: '#FFFFFD',
-    marginRight: 15
+    marginRight: 20,
+    marginTop: 20,
+  },
+  votesHeader: {
+    textAlign: 'right',
+    fontSize: 15,
+    color: 'grey',
   },
   votes: {
     textAlign: 'right',
+    alignItems: 'flex-end',
     fontSize: 15
   },
   messageContainer:{
@@ -136,6 +164,7 @@ var styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 10,
     color: 'gray',
+    paddingLeft: 10,
   },
 });
 
